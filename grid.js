@@ -24,6 +24,7 @@
          for (var i = 0; i < this.lines; i++) {
             this.field[i] = new Array(this.columns);
             for (var j = 0; j < this.columns; j++) {
+                this.field[i][j] = 0;
                 var shape = new createjs.Shape();
                 var red = Math.floor(Math.random()*255);
                 var green= Math.floor(Math.random()*255);
@@ -47,7 +48,16 @@
         var inside = this.isInside(blockGroup);
         console.log("Inside?"+inside);
         if(inside){
-            this.placeBlock(blockGroup);
+            if(this.placeBlock(blockGroup)){
+                //TODO: check all grid and give points
+                if(this.checkGrid()){
+                    this.givePoints();
+                    this.cleanGrid();
+                }
+            }
+            else{
+                //TODO: Destroy block
+            }
         }
         else{
             //TODO: Destroy block
@@ -57,6 +67,7 @@
     Grid.prototype.pickSector = function(blockGroup){
         for (var i = 0; i < this.children.length; i++) {
             var hit = this.children[i].hitTest(blockGroup.x+blockGroup.width/2,blockGroup.y+blockGroup.height/2);
+            console.log("Position hit",blockGroup.x,blockGroup.y,blockGroup.x+blockGroup.width/2,blockGroup.y+blockGroup.height/2);
             console.log("HIT?"+hit+" "+i);
             if (hit) return i;
         };
@@ -65,14 +76,73 @@
 
     Grid.prototype.placeBlock = function(blockGroup) {
         var sector = this.pickSector(blockGroup);
-        if (sector == -1) console.log("PUTA MERDA FUDEU");
+        if (sector == -1) return false;
         else{
-            blockGroup.x = (sector  % this.columns) * 64 - ((blockGroup.size.columns-1)*64);
-            blockGroup.y = Math.floor(sector / this.columns) * 64 - ((blockGroup.size.lines-1)*64);
-        }    
-        console.log(sector+"."+(sector  % this.columns)+"."+Math.floor(sector / this.columns)+".")
-        shouldUpdate = true;
-        blockGroup.lock = true;
+            var line = Math.floor(sector / this.columns);
+            var column = (sector  % this.columns);
+            if(this.cantInsertBlockOnField(line,column,blockGroup.blockType)) return false;
+
+            blockGroup.x = column * 64 - ((blockGroup.size.columns-1)*64);
+            blockGroup.y = line * 64 - ((blockGroup.size.lines-1)*64);
+            console.log(sector+"."+line+"."+column+".")
+            shouldUpdate = true;
+            blockGroup.lock = true;
+            this.insertBlockOnField(line,column,blockGroup.blockType);
+            return true;            
+        }
+    };
+
+    Grid.prototype.cantInsertBlockOnField = function(line,column,blockType) {
+        //(line-1<this.lines)?line:
+        var one = blockType == BGroupTypeEnum.ONE && this.field[line][column]==1;
+        var two = blockType == BGroupTypeEnum.LINE2 && (this.field[line][column] == 1 || this.field[line-1][column] == 1);
+        var three = blockType == BGroupTypeEnum.LINE3 && (this.field[line][column] == 1
+         || this.field[line-1][column] == 1 || this.field[line-2][column] == 1);
+        var square = blockType == BGroupTypeEnum.SQUARE2 && (this.field[line][column] == 1 || this.field[line-1][column] == 1 
+         || this.field[line][column-1] == 1 || this.field[line-1][column-1] == 1);
+        return one || two || three || square;
+    };
+
+    Grid.prototype.insertBlockOnField = function(line,column,blockType) {
+        if (blockType == BGroupTypeEnum.ONE) {            
+            this.field[line][column] = 1;
+        }
+        else if(blockType == BGroupTypeEnum.LINE2){
+            this.field[line][column] = 1;
+            this.field[line-1][column] = 1;
+        }
+        else if(blockType == BGroupTypeEnum.LINE3){
+            this.field[line][column] = 1;
+            this.field[line-1][column] = 1;
+            this.field[line-2][column] = 1;
+        }
+        else if(blockType == BGroupTypeEnum.SQUARE2){
+            this.field[line][column] = 1;
+            this.field[line][column-1] = 1;
+            this.field[line-1][column] = 1;
+            this.field[line-1][column-1] = 1;
+        }
+    };
+
+    Grid.prototype.checkGrid = function() {        
+        var isFull = true;
+        for (var i = 0; i < this.lines; i++) {
+            isFull = this.field[i].indexOf(0) == -1
+            if(isFull == false) return false;
+        }
+        return isFull;
+    };
+
+    Grid.prototype.givePoints = function() {
+        
+    };
+
+    Grid.prototype.cleanGrid = function() {
+        for (var i = 0; i < this.lines; i++) {
+            for (var j = 0; j < this.lines; j++) {
+                this.field[i][j] = 0;
+            }
+        }        
     };
 
     window.Grid = Grid;

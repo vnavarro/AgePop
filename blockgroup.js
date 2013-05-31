@@ -21,18 +21,20 @@ window.BGroupTypeEnum = {
         this.Container_initialize();
 
         this.grid = grid;
-
-        this.size = this.addBlocks(type);
+        this.blockType = type;
+        this.size = this.addBlocks();
 
         this.width = this.size.columns*this.children[0].width;
         this.height = this.size.lines*this.children[0].height;
 
-        this.onPress = function(evt) {            
+        this.onPress = function(evt) { 
+            if (this.lock == true) return;  
+            this.dragging = true;        
             var offset = {x:evt.target.x-evt.stageX, y:evt.target.y-evt.stageY};
 
             // add a handler to the event object's onMouseMove callback
             // this will be active until the user releases the mouse button:
-            evt.onMouseMove = function(ev) {
+            evt.onMouseMove = function(ev) {                                
                 this.target.x = ev.stageX+offset.x;
                 this.target.y = ev.stageY+offset.y;
                 // indicate that the stage should be updated on the next tick:
@@ -40,8 +42,9 @@ window.BGroupTypeEnum = {
             }
 
             evt.onMouseUp = function(ev){
-                this.target.grid.onDrop(this.target);                
-                // console.log("ended"+ev);
+                console.log("ended"+ev,this);
+                this.target.dragging = false;
+                this.target.grid.onDrop(this.target);                                            
             }
         }
         this.onMouseOver = function() {
@@ -87,13 +90,13 @@ window.BGroupTypeEnum = {
         return this.y + this.height;
     };
 
-    BlockGroup.prototype.addBlocks = function (type) {
+    BlockGroup.prototype.addBlocks = function () {
         var lines = columns = 1;
-        if (type == BGroupTypeEnum.ONE) {            
+        if (this.blockType == BGroupTypeEnum.ONE) {            
             var b = new Block();
             this.addChild(b);
         }
-        else if(type == BGroupTypeEnum.LINE2){
+        else if(this.blockType == BGroupTypeEnum.LINE2){
             var b = new Block();
             var b2 = new Block();           
             // b2.x = b.x + b.width;
@@ -103,7 +106,7 @@ window.BGroupTypeEnum = {
 
             lines = 2;
         }
-        else if(type == BGroupTypeEnum.LINE3){
+        else if(this.blockType == BGroupTypeEnum.LINE3){
             var b = new Block();
             var b2 = new Block();           
             var b3 = new Block();
@@ -116,7 +119,7 @@ window.BGroupTypeEnum = {
 
             lines = 3;
         }
-        else if(type == BGroupTypeEnum.SQUARE2){
+        else if(this.blockType == BGroupTypeEnum.SQUARE2){
             var b = new Block();
             var b2 = new Block();           
             var b3 = new Block();

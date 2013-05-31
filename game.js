@@ -26,13 +26,18 @@ function init(){
 	stage.addChild(messageField);
 	stage.update();
 
-	var g = new Grid();
-	stage.addChild(g);
-	stage.update();
+	this.level = new Level(stage);
 
-	var bg = new BlockGroup(g,BGroupTypeEnum.SQUARE2);
-	stage.addChild(bg);	
-	stage.update();
+	// var g = new Grid();
+	// stage.addChild(g);
+	// stage.update();
+
+	// var bg = new BlockGroup(BGroupTypeEnum.SQUARE2);
+	// stage.addChild(bg);	
+	// bg = new BlockGroup(BGroupTypeEnum.LINE3);
+	// bg.x = 128;
+	// stage.addChild(bg);	
+	// stage.update();
 
 	// createjs.SoundJS.registerPlugins([createjs.HTMLAudioPlugin, createjs.FlashPlugin]);
 	// createjs.SoundJS.checkPlugin(true);	
@@ -84,7 +89,12 @@ function tick(event){
 	if (shouldUpdate) {
         // console.log("update");
 		shouldUpdate = false; // only update once
+		this.level.update();
 		stage.update(event);
+	}
+	else{
+		this.level.update();
+		stage.update();
 	}
 	// stage.update();
 }
