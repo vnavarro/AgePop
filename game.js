@@ -7,6 +7,13 @@ var screen_height;
 var current_screen;
 var current_music_handle;
 window.shouldUpdate = false;
+window.GameStatesEnum = {
+	LOADING:0,
+	ENDED:1,
+	PREPLAYING:2,
+    PLAYING:3,
+    PAUSED:4
+};
 
 
 function init(){
@@ -14,16 +21,20 @@ function init(){
 	// create a new stage and point it at our canvas:
 	stage = new createjs.Stage(canvas);
 
+	// grab canvas width and height for later calculations:
+	screen_width = canvas.width;
+	screen_height = canvas.height;
+
 	// enabled mouse over / out events
 	stage.enableMouseOver(20);
 	stage.mouseMoveOutside = true; // keep tracking the mouse even when it leaves the canvas
 
-	var messageField = new createjs.Text("Loading...", "bold 42px MedievalSharp", "#000000");
-	messageField.maxWidth = 1000;
-	messageField.textAlign = "center";
-	messageField.x = canvas.width / 2;
-	messageField.y = canvas.height / 2;
-	stage.addChild(messageField);
+	// var messageField = new createjs.Text("Loading...", "bold 42px MedievalSharp", "#000000");
+	// messageField.maxWidth = 1000;
+	// messageField.textAlign = "center";
+	// messageField.x = canvas.width / 2;
+	// messageField.y = canvas.height / 2;
+	// stage.addChild(messageField);
 	stage.update();
 
 	this.level = new Level(stage);
@@ -68,11 +79,7 @@ function doneLoading(){
 	startGame();
 }
 
-function startGame() {	
-	// grab canvas width and height for later calculations:
-	screen_width = canvas.width;
-	screen_height = canvas.height;
-	
+function startGame() {		
 	// loadMenu();
 
 	// we want to do some work before we update the canvas,
@@ -84,7 +91,7 @@ function startGame() {
 }
 
 function tick(event){
-
+	if(currentGameState != GameStatesEnum.PLAYING) return;
 	// if(stage_screen.update)stage_screen.update();
 	if (shouldUpdate) {
         // console.log("update");
