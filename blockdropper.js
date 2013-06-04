@@ -11,12 +11,12 @@
 
         this.x = 400;
 
-        this.blockSpeed = 0.8;
+        this.blockSpeed = 1.5;
 
         this.blocks = new Array();
 
         var shape = new createjs.Shape();
-        shape.graphics.beginFill("rgba(255,234,45,1)").drawRect(0, 0, 200, 480);
+        shape.graphics.beginFill("rgba(255,234,45,1)").drawRect(0, 0, 200, screen_height);
         this.addChild(shape);
 
   //       var bg = new BlockGroup(g,BGroupTypeEnum.SQUARE2);
@@ -27,10 +27,21 @@
 		// stage.update();
     }
 
-    BlockDropper.prototype.update = function() {
+    BlockDropper.prototype.update = function() {    	    	
+		for (var i = 0; i < this.blocks.length; i++) {
+			if(this.blocks[i].remove == true){
+				stage.removeChild(this.blocks[i]);
+				this.blocks.splice(i,1);
+				i--;
+			}
+		}
+
     	for (var i = 0; i < this.blocks.length; i++) {
     		if(!this.blocks[i].dragging && !this.blocks[i].lock){    			
 	    		this.blocks[i].y += this.blockSpeed;
+	    		if(this.blocks[i].y > screen_height){
+	    			this.blocks[i].remove = true;
+	    		}
 	    	}
     	};
     };
