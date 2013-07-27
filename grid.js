@@ -55,12 +55,12 @@
                 }                
             }
             else{
-                //TODO: Place it on the dropper ends                            
+                this.moveBackToDropper(blockGroup);
             }
         }
-        else{
-            //TODO: Destroy block???
-            blockGroup.remove = true;            
+        else{            
+            // blockGroup.remove = true;            
+            this.moveBackToDropper(blockGroup);
         }
     };
 
@@ -90,6 +90,10 @@
             this.insertBlockOnField(line,column,blockGroup.blockType);
             return true;            
         }
+    };
+
+    Grid.prototype.moveBackToDropper = function(blockGroup) {
+        this.level.dropper.reDrop(blockGroup);
     };
 
     Grid.prototype.canInsertBlockOnField = function(line,column,blockType) {        

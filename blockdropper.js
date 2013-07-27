@@ -62,5 +62,9 @@
 		this.blocks.push(bg);
     };
 
+    BlockDropper.prototype.reDrop = function(bg) {                
+        bg.x = this.x+100-bg.width/2;
+    };
+
     window.BlockDropper = BlockDropper;
 }());
