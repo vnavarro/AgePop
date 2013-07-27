@@ -62,6 +62,37 @@
             // blockGroup.remove = true;            
             this.moveBackToDropper(blockGroup);
         }
+        this.removeChild(this.highLightShape);
+    };
+
+    Grid.prototype.onDragging = function(blockGroup) {
+        var sector = this.pickSector(blockGroup);
+        if (sector == -1) return false;
+        else{
+            var line = Math.floor(sector / this.columns);
+            var column = (sector  % this.columns);
+            if(this.canInsertBlockOnField(line,column,blockGroup.blockType) == false) return;
+
+            if(this.highLightShape != null){
+                //TODO: animate off?
+                this.removeChild(this.highLightShape);
+                this.highLightShape = null;
+            }
+
+            var shapeWidth = (blockGroup.size.columns*64);
+            var shapeHeight = (blockGroup.size.lines*64);
+            var shapeX = (column * 64) - ((blockGroup.size.columns-1)*64);
+            var shapeY = (line * 64) - ((blockGroup.size.lines-1)*64);// + (this.y);
+
+// var shape = new createjs.Shape();
+//  shape.graphics.beginFill("#ff0000").drawRect(0, 0, 100, 100);
+            this.highLightShape = new createjs.Shape();
+            this.highLightShape.graphics.beginFill("#ffffff").drawRect(shapeX,shapeY,shapeWidth,shapeHeight);
+            this.highLightShape.alpha = 0.9;
+            this.addChild(this.highLightShape);
+            // console.log(sector+"."+line+"."+column+".")
+            shouldUpdate = true;
+        }
     };
 
     Grid.prototype.pickSector = function(blockGroup){

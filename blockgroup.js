@@ -39,6 +39,7 @@ window.BGroupTypeEnum = {
                 this.target.y = ev.stageY+offset.y;
                 // indicate that the stage should be updated on the next tick:
                 shouldUpdate = true;
+                this.target.grid.onDragging(this.target);
             }
 
             evt.onMouseUp = function(ev){
