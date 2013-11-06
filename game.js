@@ -4,17 +4,21 @@ var level;
 var stage_screen;
 var screen_width;
 var screen_height;
-var current_screen;
 var current_music_handle;
 window.shouldUpdate = false;
 window.GameStatesEnum = {
 	LOADING:0,
-	ENDED:1,
+	GAMEOVER:1,
 	PREPLAYING:2,
-    PLAYING:3,
-    PAUSED:4
+  PLAYING:3,
+  PAUSED:4,
+  MENU:5  
 };
+var SOUND_STATUS = true;
 
+function switchSoundStatus(){
+	SOUND_STATUS = !SOUND_STATUS;
+}
 
 function init(){
 	canvas = document.getElementById("canvas");
@@ -34,10 +38,11 @@ function init(){
 	// messageField.textAlign = "center";
 	// messageField.x = canvas.width / 2;
 	// messageField.y = canvas.height / 2;
-	// stage.addChild(messageField);
-	stage.update();
+	// stage.addChild(messageField);	
 
-	this.level = new Level(stage);
+	loadMenu();
+	stage.update();
+	// this.level = new Level(stage);
 
 	// var g = new Grid();
 	// stage.addChild(g);
@@ -90,47 +95,61 @@ function startGame() {
 
 }
 
-function tick(event){
-	if(currentGameState != GameStatesEnum.PLAYING) return;
-	// if(stage_screen.update)stage_screen.update();
-	if (shouldUpdate) {
-        // console.log("update");
-		shouldUpdate = false; // only update once
-		this.level.update();
-		stage.update(event);
+function tick(event){	
+	if(game_state != GameStatesEnum.PLAYING && game_state != GameStatesEnum.MENU) return;
+	// console.log("update",stage_screen.update);
+	if(stage_screen.update){			
+		// if(game_state == GameStatesEnum.PLAYING){
+			if (shouldUpdate) {		        
+				shouldUpdate = false; // only update once
+				stage_screen.update();
+				stage.update(event);
+			}
+			else{
+				stage_screen.update();
+				stage.update();
+			}
+		// }
+		// else{			
+		// 	stage_screen.update();
+		// 	stage.update();
+		// }
 	}
 	else{
-		this.level.update();
 		stage.update();
 	}
-	// stage.update();
 }
 
 function unloadCurrentScreen(){
-	if(stage_screen && stage_screen.unload) stage_screen.unload();
+	if(stage_screen && stage_screen.unload) stage_screen.unload();	
 	stage.removeAllChildren();
+	stage_screen = null;
 }
 
-function loadMenu(){
+function loadMenu(){	
 	unloadCurrentScreen();
 	stage_screen  = new MainMenu();
 	stage.addChild(stage_screen);
+	game_state = GameStatesEnum.MENU;
 }
 
 function loadLevelSelection(){	
 	unloadCurrentScreen();
 	stage_screen = new LevelSelection();
 	stage.addChild(stage_screen);
+	game_state = GameStatesEnum.MENU;
 }
 
-function loadLevel(level_code){
+function loadLevel(){
 	unloadCurrentScreen();
-	stage_screen = new Level(level_code);
-	stage_screen.addBoardOnStage(stage);
+	stage_screen = new Level(stage);
+	// stage_screen.addBoardOnStage(stage);
+	game_state = GameStatesEnum.PLAYING;
 }
 
-function loadEndGame(remaining_time,time_limit,completed,level_id){
+function loadEndGame(score){
 	unloadCurrentScreen();
-	stage_screen = new EndGameScreen(remaining_time,time_limit,completed,level_id);
+	stage_screen = new GameOverScreen(score);
 	stage.addChild(stage_screen);
+	game_state = GameStatesEnum.MENU;
 }

@@ -15,9 +15,17 @@
 
         this.blocks = new Array();
 
-        var shape = new createjs.Shape();
-        shape.graphics.beginFill("rgba(255,234,45,1)").drawRect(0, 0, 200, screen_height);
-        this.addChild(shape);
+        // var shape = new createjs.Shape();
+        // shape.graphics.beginFill("rgba(255,234,45,1)").drawRect(0, 0, 200, screen_height);
+        // this.addChild(shape);
+
+        this.bg = new createjs.Bitmap("esteira.png");
+        this.bg.x = this.x;
+        stage.addChild(this.bg);
+
+        this.bgMachine = new createjs.Bitmap("machine.png");
+        this.bgMachine.x = this.x;
+        stage.addChild(this.bgMachine);
 
   //       var bg = new BlockGroup(g,BGroupTypeEnum.SQUARE2);
 		// stage.addChild(bg);	
@@ -55,15 +63,16 @@
     }
 
     BlockDropper.prototype.drop = function(grid,stage) {    	    	
-    	var bg = new BlockGroup(grid,this.getBlockType());
-    	bg.x = this.x+100-bg.width/2;
-    	bg.y = -bg.height;
-		stage.addChild(bg);	
-		this.blocks.push(bg);
+    	var blockGroup = new BlockGroup(grid,this.getBlockType());
+    	blockGroup.x = this.x+100-blockGroup.width/2;
+    	blockGroup.y = -blockGroup.height/2;
+		stage.addChild(blockGroup);	
+		this.blocks.push(blockGroup);
+        stage.swapChildren(this.bgMachine,blockGroup);
     };
 
-    BlockDropper.prototype.reDrop = function(bg) {                
-        bg.x = this.x+100-bg.width/2;
+    BlockDropper.prototype.reDrop = function(blockGroup) {                
+        blockGroup.x = this.x+100-blockGroup.width/2;
     };
 
     window.BlockDropper = BlockDropper;

@@ -1,13 +1,59 @@
 <html>
 <head>
 	<style type="text/css">
+    .ribbon {
+      width: 13.5em;
+      background-color: #4b81b9;
+      overflow: hidden;
+      position: absolute;
+      left: -3em;
+      top: 2.5em;
+      -moz-transform: rotate(-45deg);
+      -webkit-transform: rotate(-45deg);
+      -moz-box-shadow: 0 0 1em #888;
+      -webkit-box-shadow: 0 0 1em #888;
+      box-shadow: 0 0 1em #888;
+    }
+    .ribbon span {
+      border: 1px solid #ffffff;
+      color: #fff;
+      display: block;
+      font: bold 81.25% 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      margin: 0.05em 0;
+      padding: 0.5em 3.5em;
+      text-align: center;
+      text-decoration: none;
+      text-shadow: 0 0 0.5em #444;
+    }
 		/*@font-face {
 		  font-family: 'MedievalSharp';
 		  font-style: normal;
 		  font-weight: 400;
 		  src: local('MedievalSharp'), url(http://themes.googleusercontent.com/static/fonts/medievalsharp/v5/85X_PjV6tftJ0-rX7KYQkEW_NTSs25krVdM7z2wiArQ.woff) format('woff');
 		}*/
+		@font-face {
+    font-family: 'airwavesregular';
+    src: url('airwaves-webfont.eot');
+    src: url('airwaves-webfont.eot?#iefix') format('embedded-opentype'),
+         url('airwaves-webfont.woff') format('woff'),
+         url('airwaves-webfont.ttf') format('truetype'),
+         url('airwaves-webfont.svg#airwavesregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+		}
+		@font-face {
+		    font-family: 'shark_soft_bitesharksoftbites';
+		    src: url('sharksoftbites-webfont.eot');
+		    src: url('sharksoftbites-webfont.eot?#iefix') format('embedded-opentype'),
+		         url('sharksoftbites-webfont.woff') format('woff'),
+		         url('sharksoftbites-webfont.ttf') format('truetype'),
+		         url('sharksoftbites-webfont.svg#shark_soft_bitesharksoftbites') format('svg');
+		    font-weight: normal;
+		    font-style: normal;
+
+		}
 	</style>
+	<link href='http://fonts.googleapis.com/css?family=Slackey' rel='stylesheet' type='text/css'>
 <!-- <link href='http://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'> -->
 <script src="http://code.createjs.com/easeljs-0.6.1.min.js"></script>
 <script src="http://code.createjs.com/tweenjs-0.4.1.min.js"></script>
@@ -20,8 +66,12 @@
 <script type="text/javascript" src="grid.js"></script>
 <script type="text/javascript" src="game.js"></script>
 <script type="text/javascript" src="gameoverscreen.js"></script>
+<script type="text/javascript" src="mainmenu.js"></script>
 </head>
 <body onLoad="init();">
+  <div class="ribbon">
+    <span>Beta</span>
+  </div>
 	<div style="margin: 0 auto;width: 640px">
 	    <canvas id="canvas" width="640" height="640">        
 	    </canvas>

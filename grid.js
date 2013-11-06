@@ -7,7 +7,7 @@
      
     p.Container_initialize = p.initialize;
     p.initialize = function() { 
-        this.Container_initialize();
+        this.Container_initialize();        
 
    //      var graphics = new createjs.Graphics().beginFill("#ff0000").drawRect(0, 0, 100, 100);
          // var shape = new createjs.Shape(graphics);
@@ -26,11 +26,13 @@
             for (var j = 0; j < this.columns; j++) {
                 this.field[i][j] = 0;
                 var shape = new createjs.Shape();
-                var red = Math.floor(Math.random()*255);
-                var green= Math.floor(Math.random()*255);
-                var blue = Math.floor(Math.random()*255);
+                var color = 155;
+                if((j%2 || i%2) && (j%2 && i%2) == false){ color = 80;}
+                var red = color;//Math.floor(Math.random()*255);
+                var green= color;//Math.floor(Math.random()*255);
+                var blue = color;//Math.floor(Math.random()*255);
                 // console.log("rgba("+red+","+green+","+blue+",1)");
-                shape.graphics.beginFill("rgba("+red+","+green+","+blue+",1)").drawRect(64*j, 64*i, 64, 64);
+                shape.graphics.beginFill("rgba("+red+","+green+","+blue+",0.1)").drawRect(64*j, 64*i, 64, 64);
                 this.addChild(shape);
             };
          };
@@ -83,7 +85,6 @@
             var shapeHeight = (blockGroup.size.lines*64);
             var shapeX = (column * 64) - ((blockGroup.size.columns-1)*64);
             var shapeY = (line * 64) - ((blockGroup.size.lines-1)*64);// + (this.y);
-
 // var shape = new createjs.Shape();
 //  shape.graphics.beginFill("#ff0000").drawRect(0, 0, 100, 100);
             this.highLightShape = new createjs.Shape();
@@ -97,7 +98,7 @@
 
     Grid.prototype.pickSector = function(blockGroup){
         for (var i = 0; i < this.children.length; i++) {
-            var hit = this.children[i].hitTest(blockGroup.x+blockGroup.width/2,blockGroup.y+blockGroup.height/2);
+            var hit = this.children[i].hitTest(blockGroup.x+blockGroup.width/2,blockGroup.y-this.y/2+blockGroup.height/2);
             console.log("Position hit",blockGroup.x,blockGroup.y,blockGroup.x+blockGroup.width/2,blockGroup.y+blockGroup.height/2);
             console.log("HIT?"+hit+" "+i);
             if (hit) return i;
@@ -113,8 +114,8 @@
             var column = (sector  % this.columns);
             if(this.canInsertBlockOnField(line,column,blockGroup.blockType) == false) return false;
 
-            blockGroup.x = (column * 64) - ((blockGroup.size.columns-1)*64);
-            blockGroup.y = (line * 64) - ((blockGroup.size.lines-1)*64) + (this.y);
+            blockGroup.x = this.x + (column * 64) - ((blockGroup.size.columns-1)*64);
+            blockGroup.y = this.y + (line * 64) - ((blockGroup.size.lines-1)*64);
             console.log(sector+"."+line+"."+column+".")
             shouldUpdate = true;
             blockGroup.lock = true;
