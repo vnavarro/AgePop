@@ -10,7 +10,7 @@
 
 		this.score = 0;
 
-    this.bg = new createjs.Bitmap("bg.png");
+    this.bg = new createjs.Bitmap("assets/bg.png");
     this.bg.y = 124;
     this.stage.addChild(this.bg);    
 

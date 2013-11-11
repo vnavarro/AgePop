@@ -15,10 +15,10 @@
 
     // this.addChild(this.bg);
 
-    this.row1 = new createjs.Bitmap("candies.png");
+    this.row1 = new createjs.Bitmap("assets/candies.png");
     this.row1.x = -35;
     this.row1.y = 380;
-    this.row2 = new createjs.Bitmap("candies2.png");
+    this.row2 = new createjs.Bitmap("assets/candies2.png");
     this.row2.x = -64;
     this.row2.y = 420;
 
@@ -33,7 +33,7 @@
     this.addChild(this.row2);
 
     // this.title = new createjs.Text("Candy Festival","60px Slackey","#d4a00f");
-    this.title = new createjs.Bitmap("title.png");
+    this.title = new createjs.Bitmap("assets/title.png");
 		this.title.x = 60;
 		this.title.y = 25;
 
@@ -53,7 +53,7 @@
         "on": [0, 0],
         "off": [1, 1],
     }, 
-    "images": ["btn_sound.png","btn_sound_disabled.png"],
+    "images": ["assets/btn_sound.png","assets/btn_sound_disabled.png"],
      "frames": { "width": 64, "height": 64, "count": 2}
     });
     this.btn_sound = new createjs.BitmapAnimation(spriteSheet);
@@ -78,7 +78,7 @@
     this.btn_sound.gotoAndPlay("on");
     // this.addChild(this.btn_sound);
 
-    this.btn_play = new createjs.Bitmap("btn_play2.png");
+    this.btn_play = new createjs.Bitmap("assets/btn_play2.png");
 		this.btn_play.x = screen_width/2 - 128;
 		this.btn_play.y = screen_height/2 - 105;
 		this.btn_play.parent = this;

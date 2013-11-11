@@ -30,7 +30,7 @@
         this.back_text.y = 276 + 20;        
         this.addChild(this.back_text);
 
-        this.btn_play = new createjs.Bitmap("red_round_candy.png");
+        this.btn_play = new createjs.Bitmap("assets/red_round_candy.png");
         this.btn_play.x = screen_width/2 - 96;
         this.btn_play.y = 180;
         this.btn_play.parent = this;
@@ -43,7 +43,7 @@
 
         this.addChild(this.btn_play);        
 
-        this.btn_back = new createjs.Bitmap("orange_round_candy.png");
+        this.btn_back = new createjs.Bitmap("assets/orange_round_candy.png");
         this.btn_back.x = screen_width/2 - 96;
         this.btn_back.y = 276;
         this.btn_back.parent = this;

@@ -99,7 +99,7 @@ window.BGroupTypeEnum = {
         }
         else if(this.blockType == BGroupTypeEnum.LINE2){
             var b = new Block();
-            var b2 = new Block();           
+            var b2 = new Block(b.imgType);           
             // b2.x = b.x + b.width;
             b2.y = b.y + b.height * b.scaleY;
             this.addChild(b);   
@@ -109,8 +109,8 @@ window.BGroupTypeEnum = {
         }
         else if(this.blockType == BGroupTypeEnum.LINE3){
             var b = new Block();
-            var b2 = new Block();           
-            var b3 = new Block();
+            var b2 = new Block(b.imgType);           
+            var b3 = new Block(b.imgType);
             // b2.x = b.x + b.width;
             b2.y = b.y + b.height * b.scaleY;
             b3.y = b2.y + b2.height * b2.scaleY;
@@ -122,9 +122,9 @@ window.BGroupTypeEnum = {
         }
         else if(this.blockType == BGroupTypeEnum.SQUARE2){
             var b = new Block();
-            var b2 = new Block();           
-            var b3 = new Block();
-            var b4 = new Block();           
+            var b2 = new Block(b.imgType);           
+            var b3 = new Block(b.imgType);
+            var b4 = new Block(b.imgType);           
             b2.x = b.x + b.width;
             // b2.y = b.y + b.height * b.scaleY;
             // b2.x = b.x + b.width;

@@ -19,11 +19,11 @@
         // shape.graphics.beginFill("rgba(255,234,45,1)").drawRect(0, 0, 200, screen_height);
         // this.addChild(shape);
 
-        this.bg = new createjs.Bitmap("esteira.png");
+        this.bg = new createjs.Bitmap("assets/esteira.png");
         this.bg.x = this.x;
         stage.addChild(this.bg);
 
-        this.bgMachine = new createjs.Bitmap("machine.png");
+        this.bgMachine = new createjs.Bitmap("assets/machine.png");
         this.bgMachine.x = this.x;
         stage.addChild(this.bgMachine);
 
