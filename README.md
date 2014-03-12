@@ -4,6 +4,8 @@ Is the candy themed submission to OGAM JAM (one game a month).
 
 ## Idea
 
+The factory is full of fresh candies and we have to store them as fast as we can to ship it to every person in the world.
+
 ## Inside it
 
 Made with createjs and gimp (yep I made the art also) 
